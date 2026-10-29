@@ -20,7 +20,7 @@ interface PageHeaderProps {
   eyebrow?: ReactNode;
 }
 
-/** Editorial page title: a large serif headline with a quiet one-line standfirst. */
+/** Editorial page title: a large headline with a quiet one-line standfirst. */
 export function PageHeader({ title, description, actions, meta, eyebrow }: PageHeaderProps) {
   return (
     <header className="mb-7 pt-3">
@@ -28,7 +28,7 @@ export function PageHeader({ title, description, actions, meta, eyebrow }: PageH
         <div className="min-w-0">
           {eyebrow && <p className="mb-2 text-eyebrow text-accent">{eyebrow}</p>}
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="font-display text-[36px] leading-[40px] text-text md:text-[42px] md:leading-[46px]">{title}</h1>
+            <h1 className="font-display text-[28px] leading-[34px] text-text md:text-[32px] md:leading-[38px]">{title}</h1>
             {meta}
           </div>
           {description && (
@@ -160,12 +160,12 @@ interface StatCardProps {
 /** Inside a StatGrid, cards render as cells of one ruled ledger rather than separate cards. */
 const LedgerContext = createContext(false);
 
-/** A figure set like a ledger entry: "₦" small and raised, the amount in the serif. */
+/** A figure set like a ledger entry: "₦" small and raised, the amount large and tight. */
 function BigValue({ value, unit, tone }: { value: ReactNode; unit?: ReactNode; tone: StatTone }) {
   const long = typeof value === 'string' && value.length > 9;
   const cls = cn(
     'font-display whitespace-nowrap tabular-nums',
-    long ? 'text-[32px] leading-[36px]' : 'text-[40px] leading-[42px]',
+    long ? 'text-[24px] leading-[30px]' : 'text-[30px] leading-[36px]',
     VALUE_TONE[tone],
   );
   const tail = unit ? <span className="ml-1 font-sans text-body-13 text-text-muted">{unit}</span> : null;
@@ -186,7 +186,7 @@ function BigValue({ value, unit, tone }: { value: ReactNode; unit?: ReactNode; t
   );
 }
 
-/** One KPI: tracked label, a serif figure, and a line of context. */
+/** One KPI: tracked label, a large figure, and a line of context. */
 export function StatCard({ label, value, unit, caption, icon, tone = 'default', delta, sparkline, bars, onClick, className }: StatCardProps) {
   const inLedger = useContext(LedgerContext);
   const DeltaIcon = delta?.direction === 'up' ? ArrowUpRight : delta?.direction === 'down' ? ArrowDownRight : Minus;
@@ -317,7 +317,7 @@ export function EmptyState({ title, message, icon = 'spark', action, bordered, s
       <span className="stitch grid size-12 place-items-center rounded-full border text-text-muted">
         <Icon name={icon} size={18} />
       </span>
-      <h3 className="mt-4 font-display text-[22px] leading-7 text-text">{title}</h3>
+      <h3 className="mt-4 font-display text-[17px] leading-6 text-text">{title}</h3>
       {message && <p className="mt-1 max-w-sm text-body-14 text-text-secondary">{message}</p>}
       {action && <div className="mt-5 flex flex-wrap justify-center gap-2">{action}</div>}
     </div>

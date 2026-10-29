@@ -16,12 +16,10 @@ dashboard: black ink on white paper, like a pattern sheet. Use the components in
    (`rounded-tile`), cards 14px (`rounded-card`) and badges 6px tags (`rounded-tag`),
    like garment labels. Use `rounded-full` only for avatars, dots and switches, never
    for buttons or inputs.
-4. **Editorial type.**
-   - **Serif:** Instrument Serif (`font-display`) is for page titles, sheet titles and
-     big figures. It has one weight, so never bold it. Size carries the hierarchy, and
-     italics give emphasis ("Good afternoon, *Tunde*.").
-   - **Body:** Inter is for everything you read. Sizes follow the named scale
-     (`text-body-12…15`).
+4. **Type: Inter throughout.**
+   - **Titles and big figures:** `font-display` is Inter, set heavier (600) and tighter.
+     There are no italics.
+   - **Body:** Inter, sized on the named scale (`text-body-12…15`).
    - **Labels:** small tracked capitals (`text-eyebrow`) label KPIs and table headers.
 5. **Details from the trade, used sparingly.**
    - `stitch`: a dashed rule, used for section headers, receipts (`KeyValue`) and dockets.
@@ -37,7 +35,7 @@ dashboard: black ink on white paper, like a pattern sheet. Use the components in
 
 | Need | Use |
 | --- | --- |
-| Page title + actions | `PageHeader` (serif title, one-line `description`, `actions`, optional `eyebrow`) |
+| Page title + actions | `PageHeader` (large title, one-line `description`, `actions`, optional `eyebrow`) |
 | Section between cards | `SectionHeader` (title + stitched rule + actions) |
 | Card | `Card`, `CardHeader`, `CardBody`, `CardFooter` (sunken footer bar) |
 | KPIs | `StatGrid` + `StatCard`. The grid renders them as one ledger strip |
@@ -50,10 +48,10 @@ dashboard: black ink on white paper, like a pattern sheet. Use the components in
 | Trend | `LineChart` (monotone, ink and grey) + `ChartLegend` |
 | Buckets | `BarChart`: square-shouldered columns; the called-out bar is solid ink |
 | Message | `Alert`: a tinted slip with a coloured edge rule |
-| Nothing to show | `EmptyState` (stitched circle, serif title) |
+| Nothing to show | `EmptyState` (stitched circle, short title) |
 | Forms | `FormGrid` + `Field` + `Input` (`prefix="₦"`), `Select`, `Textarea` |
 | Filters | `Toolbar` with `SearchInput` and `Tabs` (underline tabs) |
-| Modal | `Sheet` (serif `title`, `description`, `footer` holds the actions; forms submit via `form="<id>"`) |
+| Modal | `Sheet` (`title`, `description`, `footer` holds the actions; forms submit via `form="<id>"`) |
 
 ## Buttons
 

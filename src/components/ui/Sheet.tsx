@@ -94,7 +94,7 @@ export function Modal({ title, description, tag, tagTone, onClose, footer, size 
         <div className="stitch mx-6 flex items-start justify-between gap-4 border-b pt-5 pb-4">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 id={`${id}-t`} className="font-display text-[28px] leading-8 text-text">
+              <h2 id={`${id}-t`} className="font-display text-[22px] leading-7 text-text">
                 {title}
               </h2>
               {tag && <Badge tone={tagTone}>{tag}</Badge>}

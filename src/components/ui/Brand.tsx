@@ -26,14 +26,14 @@ export function Logo({ size = 32, inverted, className }: { size?: number; invert
   );
 }
 
-/** The hanger plus a serif wordmark. The text inherits its colour; pass `inverted` on black. */
+/** The hanger plus the wordmark. The text inherits its colour; pass `inverted` on black. */
 export function BrandMark({ className, compact, inverted }: { className?: string; compact?: boolean; inverted?: boolean }) {
   return (
     <div className={cn('flex items-center gap-2.5', className)}>
       <Logo inverted={inverted} />
       {!compact && (
-        <span className="font-display text-[23px] leading-none">
-          OJ <span className="italic">Clothing</span>
+        <span className="font-display text-[17px] leading-none">
+          OJ Clothing
         </span>
       )}
     </div>
@@ -76,7 +76,7 @@ interface KeypadProps {
 /** Big number pad for badge numbers on the shop tablet. */
 export function Keypad({ length, max = 6, onDigit, onDelete, onSubmit, label, className }: KeypadProps) {
   const key =
-    'grid h-14 place-items-center rounded-tile border border-border bg-surface font-display text-[26px] text-text tabular-nums transition-colors hover:border-border-strong hover:bg-surface-hover active:bg-text active:text-surface';
+    'grid h-14 place-items-center rounded-tile border border-border bg-surface font-display text-[20px] text-text tabular-nums transition-colors hover:border-border-strong hover:bg-surface-hover active:bg-text active:text-surface';
   return (
     <div className={cn('mx-auto w-full max-w-80', className)}>
       {label && <p className="mb-3 text-center text-body-13 text-text-secondary">{label}</p>}

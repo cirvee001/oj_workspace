@@ -5,7 +5,7 @@
 
    A Lagos tailoring house, not a SaaS dashboard: black ink on white paper,
    like a pattern sheet. Colour is kept for status only (paid, late, missing).
-   Editorial serif for titles and big figures; Inter for everything you read.
+   Inter throughout: heavier and tighter for titles and big figures.
 
    Components reference ROLE tokens (surface, text-secondary, accent…), never a
    raw ramp step, so dark mode is a single re-declaration below. To re-brand,
@@ -17,8 +17,8 @@
 @theme {
   /* ---- Type ---------------------------------------------------------- */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  /* One weight (400). Never bold it; size and colour carry the hierarchy. */
-  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  /* Titles and big figures: Inter, set heavier and tighter than body text. */
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', monospace;
 
   /* ---- Accent — ink. OJ is black and white; the accent IS the ink. -- */
@@ -256,11 +256,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* The serif ships one weight: never let the browser fake a bold. */
+  /* Display text: the same Inter, heavier and tighter. */
   .font-display {
-    font-synthesis: none;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
   .grid > * {
     min-width: 0;

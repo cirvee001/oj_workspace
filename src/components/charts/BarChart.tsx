@@ -46,7 +46,7 @@ export function BarChart({ bars, height = 180, showValues, className }: BarChart
                   <span
                     className={cn(
                       'absolute left-1/2 -translate-x-1/2 text-[12px] whitespace-nowrap tabular-nums',
-                      current ? 'font-display text-[18px] leading-none text-accent' : 'font-medium text-text-secondary',
+                      current ? 'font-display text-[14px] leading-none text-accent' : 'font-medium text-text-secondary',
                     )}
                     style={{ bottom: `calc(${pct}% + 6px)` }}
                   >

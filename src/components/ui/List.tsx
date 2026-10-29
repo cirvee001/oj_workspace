@@ -126,7 +126,7 @@ export function KeyValue({ label, children, hint, total, tone }: KeyValueProps) 
       <dd
         className={cn(
           'min-w-0 text-right text-body-14 tabular-nums',
-          total ? 'font-display text-[22px] leading-7' : 'text-text',
+          total ? 'font-display text-[18px] leading-6' : 'text-text',
           tone === 'danger' && 'text-danger-text',
           tone === 'success' && 'text-success-text',
           tone === 'warning' && 'text-warning-text',

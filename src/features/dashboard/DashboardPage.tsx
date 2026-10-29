@@ -170,8 +170,8 @@ export function DashboardPage() {
       <section aria-label="Today in brief" className="mt-4 mb-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-end">
         <div className="min-w-0">
           <p className="text-eyebrow text-accent">{dateLine}</p>
-          <h1 className="mt-3 font-display text-[46px] leading-[1.02] text-balance text-text sm:text-[60px]">
-            {greeting()}, <em className="italic">{firstName(me(s).name)}</em>.
+          <h1 className="mt-3 font-display text-[34px] leading-[1.1] text-balance text-text sm:text-[44px]">
+            {greeting()}, {firstName(me(s).name)}.
           </h1>
           <p className="mt-4 max-w-2xl text-[17px] leading-7 text-pretty text-text-secondary">{brief}</p>
         </div>
@@ -411,7 +411,7 @@ function Docket({ title, urgent, rows }: { title: string; urgent: number; rows: 
             <>
               <Icon name={r.icon} size={15} className="shrink-0 text-text-muted" />
               <span className="min-w-0 flex-1 truncate text-body-14 text-text-secondary">{r.label}</span>
-              <span className="font-display text-[30px] leading-none text-text tabular-nums">{r.value}</span>
+              <span className="font-display text-[24px] leading-none text-text tabular-nums">{r.value}</span>
             </>
           );
           const cls = 'flex w-full items-center gap-3 py-3 text-left';
@@ -519,7 +519,7 @@ function SalesCard({ s }: { s: AppState }) {
       />
       <CardBody>
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
-          <p className="font-display text-[48px] leading-none text-text tabular-nums">
+          <p className="font-display text-[36px] leading-none text-text tabular-nums">
             <span className="mr-1 align-[0.6em] font-sans text-[15px] font-medium text-text-muted">{total[0]}</span>
             {total.slice(1)}
           </p>

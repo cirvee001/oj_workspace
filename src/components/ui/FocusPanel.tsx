@@ -149,14 +149,14 @@ interface DetailCardProps {
   children?: ReactNode;
 }
 
-/** The selected item, set like a tailor's docket: serif title, ruled fields, actions at the foot. */
+/** The selected item, set like a tailor's docket: bold title, ruled fields, actions at the foot. */
 export function DetailCard({ eyebrow, title, subtitle, amount, fields, actions, children }: DetailCardProps) {
   return (
     <div className="flex h-full flex-col rounded-tile bg-surface p-5 shadow-card">
       {eyebrow && <p className="text-eyebrow text-accent">{eyebrow}</p>}
-      <h3 className="mt-1.5 font-display text-[26px] leading-[30px] text-text">{title}</h3>
+      <h3 className="mt-1.5 font-display text-[20px] leading-[26px] text-text">{title}</h3>
       {subtitle && <p className="mt-1 text-body-13 text-text-secondary">{subtitle}</p>}
-      {amount !== undefined && <p className="mt-4 font-display text-[40px] leading-[42px] text-text tabular-nums">{amount}</p>}
+      {amount !== undefined && <p className="mt-4 font-display text-[30px] leading-[36px] text-text tabular-nums">{amount}</p>}
       {fields && fields.length > 0 && (
         <dl className="stitch mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t pt-4">
           {fields.map(([label, value], i) => (

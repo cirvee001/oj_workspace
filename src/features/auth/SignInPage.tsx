@@ -42,8 +42,8 @@ export function SignInPage() {
         <BrandMark inverted />
         <div>
           <p className="text-eyebrow text-panel-dark-muted">Ikeja · Lekki · Abuja</p>
-          <h2 className="mt-4 max-w-[13ch] font-display text-[60px] leading-[1.02]">
-            Everything the business does, <em className="italic">in one place.</em>
+          <h2 className="mt-4 max-w-[13ch] font-display text-[44px] leading-[1.08]">
+            Everything the business does, in one place.
           </h2>
           <p className="mt-6 max-w-[42ch] text-body-15 text-panel-dark-muted">
             Orders, fabric, the workshop, the staff and the money — without calling four people to find out what is happening.
@@ -66,7 +66,7 @@ export function SignInPage() {
       <div className="flex items-center justify-center px-4 py-10 sm:px-8">
         <div className="w-full max-w-105">
           <BrandMark className="mb-8 lg:hidden" />
-          <h1 className="font-display text-[44px] leading-[48px] text-text">Sign in</h1>
+          <h1 className="font-display text-[32px] leading-[38px] text-text">Sign in</h1>
           <p className="mt-1.5 mb-6 text-body-14 text-text-secondary">Welcome back. Choose how you want to sign in.</p>
 
           <div className="rounded-card bg-surface p-5 shadow-card sm:p-6">
