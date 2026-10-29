@@ -84,7 +84,7 @@ export function ProductFormSheet({ id }: { id?: string }) {
           </div>
           <FormGrid className="flex-1">
             <Field label="Name" full>
-              <Input autoFocus placeholder="Ankara Shift Dress" value={name} onChange={(e) => setName(e.target.value)} />
+              <Input autoFocus placeholder="Ankara Bustier Dress" value={name} onChange={(e) => setName(e.target.value)} />
             </Field>
             <Field label="Selling price">
               <Input type="number" min="0" step="100" prefix="₦" value={price} onChange={(e) => setPrice(e.target.value)} />

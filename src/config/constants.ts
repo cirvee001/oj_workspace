@@ -55,6 +55,9 @@ export const SWATCH: Record<string, string> = {
   Emerald: '#2E6B4E',
   Cream: '#E7DFCE',
   Wine: '#A3304F',
+  Olive: '#5B6236',
+  Teal: '#2F5D5A',
+  Bronze: '#7A4B2A',
 };
 
 /** Chart series colours (tokens in index.css). */

@@ -248,6 +248,8 @@ export interface Product {
   patterned: boolean;
   sold: number;
   variants: Variant[];
+  /** Catalogue photo, e.g. '/products/agbada-set.jpg'. A photo taken in the shop overrides it. */
+  photo?: string;
 }
 
 export interface Transfer {

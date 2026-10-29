@@ -96,14 +96,15 @@ export function ProductsPage() {
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
         {s.products.map((p) => {
-          const shot = s.photos[p.id];
+          /* A photo taken in the shop wins over the catalogue photo. */
+          const shot = s.photos[p.id] ?? p.photo;
           const total = p.variants.reduce((n, v) => n + left(v.stock), 0);
           const first = p.variants[0];
           return (
             <article key={p.id} className="flex min-w-0 flex-col rounded-card bg-surface p-2.5 shadow-card">
-              <div className="relative aspect-4/3 overflow-hidden rounded-tile bg-surface-sunken">
+              <div className="relative aspect-4/5 overflow-hidden rounded-tile bg-surface-sunken">
                 {shot ? (
-                  <img src={shot} alt={p.name} className="block size-full object-cover" />
+                  <img src={shot} alt={p.name} loading="lazy" decoding="async" className="block size-full object-cover object-top" />
                 ) : (
                   <Garment shape={p.shape} colour={first?.colour ?? ''} patterned={p.patterned} id={p.id} />
                 )}

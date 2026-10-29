@@ -40,6 +40,20 @@ const SEED_STAGES: Stage[] = ['measurement', 'fabric', 'cutting', 'sewing', 'fin
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
+/** What sells off the rail, as [item, size, colour, price in kobo]. Matches the products below. */
+const RAIL_SALES: [string, string, string, number][] = [
+  ['Ankara Bustier Dress', 'M', 'Rust', 4500000],
+  ['Ankara Bustier Dress', 'S', 'Rust', 4500000],
+  ['Embroidered Kaftan', 'L', 'Teal', 6500000],
+  ['Beaded Gele', 'One', 'Wine', 1800000],
+  ['Beaded Gele', 'One', 'Gold', 1800000],
+  ['Lace Buba & Iro', 'M', 'Olive', 9500000],
+  ['Adire Kaftan Dress', 'One', 'Blue', 3800000],
+  ['Ankara Puff-Sleeve Top', 'M', 'Rust', 2800000],
+  ['Agbada Set', 'L', 'White', 15000000],
+  ['Sequin Evening Gown', 'M', 'Bronze', 12000000],
+];
+
 const BRANCHES: Branch[] = [
   { id: 'IK', name: 'Ikeja', address: '14 Awolowo Way', opens: '08:00', lat: null, lng: null },
   { id: 'LEK', name: 'Lekki', address: '3 Admiralty Way', opens: '09:00', lat: null, lng: null },
@@ -189,10 +203,10 @@ export function createSeedData(): BusinessData {
   /* shop sales over the last 60 days */
   for (let i = 0; i < 90; i++) {
     const daysAgo = between(r, 0, 59);
+    const [item, size, colour, price] = pick(r, RAIL_SALES);
     sales.push({
-      what: pick(r, ['Ankara Shift Dress', 'Linen Shirt', 'Silk Head Wrap', 'Emerald Wrap Dress', 'Evening Gown']) +
-        ' · ' + pick(r, ['S', 'M', 'L']) + ' · ' + pick(r, ['Blue', 'White', 'Gold', 'Emerald', 'Wine']),
-      amount: pick(r, [4500000, 2800000, 1200000, 6200000, 9800000]),
+      what: item + ' · ' + size + ' · ' + colour,
+      amount: price,
       when: isoFromToday(-daysAgo),
       branch: pick(r, ['IK', 'IK', 'LEK', 'ABJ']),
       by: pick(r, staff.filter((s) => s.role === 'sales' || s.role === 'manager')).id,
@@ -319,20 +333,34 @@ export function createSeedData(): BusinessData {
   return {
     branches, staff, customers, styles, materials: mats, orders, jobs, payments, sales, issues, attendance, expenses, enquiries, stockCounts,
 
+    /* The ready-to-wear rail. Photos are demo placeholders: see public/products/CREDITS.md. */
     products: [
-      { id: 'p1', sku: 'RTW-001', name: 'Ankara Shift Dress', price: 4500000, shape: 'dress', patterned: true, sold: 271,
-        variants: [{ size: 'S', colour: 'Blue', stock: { IK: 3, LEK: 2, ABJ: 1 } }, { size: 'M', colour: 'Blue', stock: { IK: 5, LEK: 1, ABJ: 2 } },
+      { id: 'p1', sku: 'RTW-001', name: 'Ankara Bustier Dress', price: 4500000, shape: 'dress', patterned: true, sold: 271,
+        photo: '/products/ankara-bustier-dress.jpg',
+        variants: [{ size: 'S', colour: 'Rust', stock: { IK: 3, LEK: 2, ABJ: 1 } }, { size: 'M', colour: 'Rust', stock: { IK: 5, LEK: 1, ABJ: 2 } },
           { size: 'L', colour: 'Rust', stock: { IK: 0, LEK: 4, ABJ: 0 } }] },
-      { id: 'p2', sku: 'RTW-002', name: 'Linen Shirt', price: 2800000, shape: 'shirt', patterned: false, sold: 188,
-        variants: [{ size: 'M', colour: 'White', stock: { IK: 7, LEK: 3, ABJ: 4 } }, { size: 'L', colour: 'Cream', stock: { IK: 2, LEK: 6, ABJ: 1 } }] },
-      { id: 'p3', sku: 'RTW-003', name: 'Silk Head Wrap', price: 1200000, shape: 'wrap', patterned: true, sold: 402,
-        variants: [{ size: 'One', colour: 'Gold', stock: { IK: 14, LEK: 8, ABJ: 6 } }] },
-      { id: 'p4', sku: 'RTW-004', name: 'Emerald Wrap Dress', price: 6200000, shape: 'dress', patterned: false, sold: 97,
-        variants: [{ size: 'M', colour: 'Emerald', stock: { IK: 2, LEK: 0, ABJ: 1 } }, { size: 'L', colour: 'Emerald', stock: { IK: 1, LEK: 3, ABJ: 2 } }] },
-      { id: 'p5', sku: 'RTW-005', name: 'Evening Gown', price: 9800000, shape: 'dress', patterned: false, sold: 54,
-        variants: [{ size: 'M', colour: 'Wine', stock: { IK: 1, LEK: 1, ABJ: 0 } }, { size: 'L', colour: 'Black', stock: { IK: 0, LEK: 2, ABJ: 1 } }] },
-      { id: 'p6', sku: 'RTW-006', name: 'Aso-oke Cap', price: 1800000, shape: 'wrap', patterned: true, sold: 143,
-        variants: [{ size: 'One', colour: 'Rust', stock: { IK: 9, LEK: 5, ABJ: 7 } }] },
+      { id: 'p2', sku: 'RTW-002', name: 'Embroidered Kaftan', price: 6500000, shape: 'shirt', patterned: false, sold: 188,
+        photo: '/products/embroidered-kaftan.jpg',
+        variants: [{ size: 'M', colour: 'Teal', stock: { IK: 4, LEK: 3, ABJ: 2 } }, { size: 'L', colour: 'Teal', stock: { IK: 2, LEK: 3, ABJ: 1 } },
+          { size: 'XL', colour: 'Black', stock: { IK: 1, LEK: 2, ABJ: 1 } }] },
+      { id: 'p3', sku: 'RTW-003', name: 'Agbada Set', price: 15000000, shape: 'shirt', patterned: false, sold: 64,
+        photo: '/products/agbada-set.jpg',
+        variants: [{ size: 'L', colour: 'White', stock: { IK: 2, LEK: 1, ABJ: 1 } }, { size: 'XL', colour: 'Cream', stock: { IK: 1, LEK: 2, ABJ: 0 } }] },
+      { id: 'p4', sku: 'RTW-004', name: 'Beaded Gele', price: 1800000, shape: 'wrap', patterned: false, sold: 402,
+        photo: '/products/beaded-gele.jpg',
+        variants: [{ size: 'One', colour: 'Wine', stock: { IK: 9, LEK: 5, ABJ: 4 } }, { size: 'One', colour: 'Gold', stock: { IK: 5, LEK: 3, ABJ: 2 } }] },
+      { id: 'p5', sku: 'RTW-005', name: 'Lace Buba & Iro', price: 9500000, shape: 'dress', patterned: false, sold: 97,
+        photo: '/products/lace-buba-iro.jpg',
+        variants: [{ size: 'M', colour: 'Olive', stock: { IK: 2, LEK: 0, ABJ: 1 } }, { size: 'L', colour: 'Olive', stock: { IK: 1, LEK: 3, ABJ: 2 } }] },
+      { id: 'p6', sku: 'RTW-006', name: 'Sequin Evening Gown', price: 12000000, shape: 'dress', patterned: false, sold: 54,
+        photo: '/products/sequin-evening-gown.jpg',
+        variants: [{ size: 'M', colour: 'Bronze', stock: { IK: 1, LEK: 1, ABJ: 0 } }, { size: 'L', colour: 'Black', stock: { IK: 0, LEK: 2, ABJ: 1 } }] },
+      { id: 'p7', sku: 'RTW-007', name: 'Adire Kaftan Dress', price: 3800000, shape: 'dress', patterned: true, sold: 143,
+        photo: '/products/adire-kaftan-dress.jpg',
+        variants: [{ size: 'One', colour: 'Blue', stock: { IK: 6, LEK: 4, ABJ: 3 } }] },
+      { id: 'p8', sku: 'RTW-008', name: 'Ankara Puff-Sleeve Top', price: 2800000, shape: 'shirt', patterned: true, sold: 121,
+        photo: '/products/ankara-puff-sleeve-top.jpg',
+        variants: [{ size: 'S', colour: 'Rust', stock: { IK: 3, LEK: 2, ABJ: 2 } }, { size: 'M', colour: 'Rust', stock: { IK: 4, LEK: 1, ABJ: 3 } }] },
     ],
 
     transfers: [
