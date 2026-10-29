@@ -100,7 +100,7 @@ export function FocusPanel({ title, description, actions, items, selectedKey, on
         </ul>
 
         <div className="hidden min-w-0 bg-surface-sunken p-5 lg:block">
-          <div className="lg:sticky lg:top-4">
+          <div className="lg:sticky lg:top-20">
             {selected ? (
               detail
             ) : (

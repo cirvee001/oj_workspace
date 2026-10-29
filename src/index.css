@@ -242,10 +242,11 @@
   * {
     border-color: var(--color-border);
   }
+  /* The window scrolls; the app is at least one screen tall. */
   html,
   body,
   #root {
-    height: 100%;
+    min-height: 100%;
   }
   body {
     background-color: var(--color-canvas);

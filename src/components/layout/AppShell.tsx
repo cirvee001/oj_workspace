@@ -29,7 +29,10 @@ function PageSkeleton() {
   );
 }
 
-/** The signed-in frame: a fixed sidebar and top bar; only the content well scrolls. */
+/**
+ * The signed-in frame. The page scrolls the normal way (the window), while the
+ * sidebar and top bar stay put with `position: sticky`.
+ */
 export function AppShell() {
   const [rail, setRail] = useState(readRail);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -38,6 +41,8 @@ export function AppShell() {
   /* A sheet belongs to the screen it was opened on: leaving the screen closes it. */
   useEffect(() => {
     closeSheet();
+    /* A new screen starts at the top. */
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   const collapse = (v: boolean) => {
@@ -50,12 +55,12 @@ export function AppShell() {
   };
 
   return (
-    <div className="no-print flex h-screen overflow-clip bg-canvas">
+    <div className="no-print flex min-h-screen bg-canvas">
       <Sidebar collapsed={rail} onCollapse={collapse} drawerOpen={drawerOpen} onDrawerClose={() => setDrawerOpen(false)} />
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-clip">
+      <div className="flex min-w-0 flex-1 flex-col">
         <Topbar onMenu={() => setDrawerOpen(true)} />
-        {/* key resets scroll position when the page changes */}
-        <main key={pathname} className="min-h-0 flex-1 animate-in overflow-y-auto">
+        {/* key replays the fade-in when the page changes */}
+        <main key={pathname} className="flex-1 animate-in">
           <div className="mx-auto w-full max-w-360 px-4 pt-2 pb-16 md:px-8">
             <Suspense fallback={<PageSkeleton />}>
               <Outlet />

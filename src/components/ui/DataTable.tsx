@@ -111,7 +111,7 @@ export function DataTable<T>({
   };
 
   return (
-    <div className={cn('min-w-0', !bare && 'overflow-hidden rounded-card bg-surface shadow-card', className)}>
+    <div className={cn('relative min-w-0', !bare && 'overflow-hidden rounded-card bg-surface shadow-card', className)}>
       {toolbar && <div className="flex flex-wrap items-center gap-2 border-b border-border px-4 py-3">{toolbar}</div>}
       <div className="w-full overflow-x-auto">
         <table className="w-full border-separate border-spacing-0">

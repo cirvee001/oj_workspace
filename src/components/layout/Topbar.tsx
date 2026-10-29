@@ -30,7 +30,7 @@ export function Topbar({ onMenu }: { onMenu: () => void }) {
   }, []);
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-3 px-4 md:px-8">
+    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 bg-canvas/85 px-4 backdrop-blur-md md:px-8">
       <IconButton icon="menu" label="Menu" variant="surface" onClick={onMenu} className="md:hidden" />
       <button
         type="button"

@@ -20,7 +20,7 @@ export function Sidebar({ collapsed, onCollapse, drawerOpen, onDrawerClose }: Si
     <>
       <aside
         className={cn(
-          'relative hidden min-h-0 shrink-0 flex-col bg-panel-dark text-panel-dark-text transition-[width] duration-200 md:flex',
+          'sticky top-0 hidden h-screen shrink-0 flex-col self-start bg-panel-dark text-panel-dark-text transition-[width] duration-200 md:flex',
           collapsed ? 'w-16' : 'w-62',
         )}
       >
