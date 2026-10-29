@@ -14,6 +14,7 @@ import {
   type Column,
   type ProgressTone,
 } from '@/components/ui';
+import { MaterialSwatch } from './MaterialSwatch';
 import { naira, nairaShort, qty } from '@/lib/format';
 import { useApp } from '@/store/hooks';
 import { branchName, can, jobOf, materialOf, myBranch, nameOf, orderOf, stockOf, styleOf } from '@/store/selectors';
@@ -47,9 +48,12 @@ export function FabricPage() {
       header: 'Item',
       sortValue: (r) => r.m.name,
       cell: (r) => (
-        <span className="flex flex-wrap items-center gap-2">
-          <span className="font-semibold text-text">{r.m.name}</span>
-          {r.m.patterned && <Badge size="sm">patterned</Badge>}
+        <span className="flex items-center gap-3">
+          <MaterialSwatch material={r.m} />
+          <span className="flex min-w-0 flex-wrap items-center gap-2">
+            <span className="font-semibold text-text">{r.m.name}</span>
+            {r.m.patterned && <Badge size="sm">patterned</Badge>}
+          </span>
         </span>
       ),
     },
@@ -112,7 +116,17 @@ export function FabricPage() {
 
   const outCols: Column<FabricIssue>[] = [
     { key: 'job', header: 'Job', sortValue: (i) => i.job, cell: (i) => <span className="font-semibold text-text tabular-nums">{i.job}</span> },
-    { key: 'fabric', header: 'Fabric', sortValue: (i) => materialOf(s, i.material).name, cell: (i) => materialOf(s, i.material).name },
+    {
+      key: 'fabric',
+      header: 'Fabric',
+      sortValue: (i) => materialOf(s, i.material).name,
+      cell: (i) => (
+        <span className="flex items-center gap-2.5">
+          <MaterialSwatch material={materialOf(s, i.material)} size={28} />
+          {materialOf(s, i.material).name}
+        </span>
+      ),
+    },
     { key: 'given', header: 'Given', align: 'right', sortValue: (i) => i.issued, cell: (i) => <span className="tabular-nums">{qty(i.issued)}</span> },
     { key: 'needs', header: 'Style needs', align: 'right', sortValue: (i) => i.expected, cell: (i) => <span className="tabular-nums">{qty(i.expected)}</span>, hideOnMobile: true },
     { key: 'with', header: 'With', sortValue: (i) => nameOf(s, i.to), cell: (i) => nameOf(s, i.to) },

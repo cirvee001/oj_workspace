@@ -121,6 +121,8 @@ export interface Material {
   cost: number;
   supplier: string;
   stock: Record<BranchId, number>;
+  /** Swatch photo, e.g. '/materials/gold-lace.jpg'. */
+  photo?: string;
 }
 
 export interface Customer {

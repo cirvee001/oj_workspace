@@ -88,18 +88,19 @@ const STYLES: Style[] = [
   { id: 'bubu', name: 'Boubou', price: 9500000, tol: 14, days: 9, specs: { S: 5, M: 5.5, L: 6, XL: 6.5, '2XL': 7 } },
 ];
 
+/** Swatch photos are demo placeholders: see public/materials/CREDITS.md. */
 function materials(): Material[] {
   return [
-    { id: 'm1', name: 'Ankara Blue Wax', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 10, cost: 250000, supplier: 's1', stock: { IK: 42, LEK: 18, ABJ: 12 } },
-    { id: 'm2', name: 'Gold Lace', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 8, cost: 820000, supplier: 's2', stock: { IK: 23.5, LEK: 9, ABJ: 6 } },
-    { id: 'm3', name: 'Plain Cotton', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 15, cost: 140000, supplier: 's1', stock: { IK: 64, LEK: 31, ABJ: 22 } },
-    { id: 'm4', name: 'Lining White', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 14, cost: 90000, supplier: 's1', stock: { IK: 7, LEK: 19, ABJ: 11 } },
-    { id: 'm5', name: 'Thread Black', kind: 'Trim', unit: 'reels', patterned: false, reorder: 25, cost: 12000, supplier: 's3', stock: { IK: 64, LEK: 28, ABJ: 19 } },
-    { id: 'm6', name: 'Zips 24in', kind: 'Trim', unit: 'pieces', patterned: false, reorder: 30, cost: 35000, supplier: 's3', stock: { IK: 14, LEK: 41, ABJ: 26 } },
-    { id: 'm7', name: 'Crystal Stones', kind: 'Trim', unit: 'packs', patterned: false, reorder: 6, cost: 180000, supplier: 's2', stock: { IK: 17, LEK: 4, ABJ: 8 } },
-    { id: 'm8', name: 'Aso-oke Maroon', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 8, cost: 640000, supplier: 's4', stock: { IK: 15, LEK: 11, ABJ: 3 } },
-    { id: 'm9', name: 'Silk Charmeuse', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 10, cost: 520000, supplier: 's2', stock: { IK: 26, LEK: 13, ABJ: 9 } },
-    { id: 'm10', name: 'Buttons Pearl', kind: 'Trim', unit: 'packs', patterned: false, reorder: 10, cost: 28000, supplier: 's3', stock: { IK: 33, LEK: 16, ABJ: 12 } },
+    { id: 'm1', name: 'Ankara Blue Wax', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 10, cost: 250000, supplier: 's1', stock: { IK: 42, LEK: 18, ABJ: 12 }, photo: '/materials/ankara-blue-wax.jpg' },
+    { id: 'm2', name: 'Gold Lace', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 8, cost: 820000, supplier: 's2', stock: { IK: 23.5, LEK: 9, ABJ: 6 }, photo: '/materials/gold-lace.jpg' },
+    { id: 'm3', name: 'Plain Cotton', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 15, cost: 140000, supplier: 's1', stock: { IK: 64, LEK: 31, ABJ: 22 }, photo: '/materials/plain-cotton.jpg' },
+    { id: 'm4', name: 'Lining White', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 14, cost: 90000, supplier: 's1', stock: { IK: 7, LEK: 19, ABJ: 11 }, photo: '/materials/lining-white.jpg' },
+    { id: 'm5', name: 'Thread Black', kind: 'Trim', unit: 'reels', patterned: false, reorder: 25, cost: 12000, supplier: 's3', stock: { IK: 64, LEK: 28, ABJ: 19 }, photo: '/materials/thread-black.jpg' },
+    { id: 'm6', name: 'Zips 24in', kind: 'Trim', unit: 'pieces', patterned: false, reorder: 30, cost: 35000, supplier: 's3', stock: { IK: 14, LEK: 41, ABJ: 26 }, photo: '/materials/zips.jpg' },
+    { id: 'm7', name: 'Crystal Stones', kind: 'Trim', unit: 'packs', patterned: false, reorder: 6, cost: 180000, supplier: 's2', stock: { IK: 17, LEK: 4, ABJ: 8 }, photo: '/materials/crystal-stones.jpg' },
+    { id: 'm8', name: 'Aso-oke Maroon', kind: 'Fabric', unit: 'yards', patterned: true, reorder: 8, cost: 640000, supplier: 's4', stock: { IK: 15, LEK: 11, ABJ: 3 }, photo: '/materials/aso-oke-maroon.jpg' },
+    { id: 'm9', name: 'Silk Charmeuse', kind: 'Fabric', unit: 'yards', patterned: false, reorder: 10, cost: 520000, supplier: 's2', stock: { IK: 26, LEK: 13, ABJ: 9 }, photo: '/materials/silk-charmeuse.jpg' },
+    { id: 'm10', name: 'Buttons Pearl', kind: 'Trim', unit: 'packs', patterned: false, reorder: 10, cost: 28000, supplier: 's3', stock: { IK: 33, LEK: 16, ABJ: 12 }, photo: '/materials/buttons-pearl.jpg' },
   ];
 }
 

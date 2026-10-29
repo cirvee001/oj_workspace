@@ -127,7 +127,7 @@ export function ProductsPage() {
               <div className="flex flex-1 flex-col gap-3 px-1.5 pt-3 pb-1.5">
                 <div className="flex items-start gap-2.5">
                   <div className="min-w-0">
-                    <h3 className="truncate text-body-14 font-bold text-text">{p.name}</h3>
+                    <h3 className="line-clamp-2 text-body-14 font-bold text-text">{p.name}</h3>
                     <p className="text-body-12 text-text-muted">{p.sku}</p>
                   </div>
                   <span className="ml-auto font-display text-body-15 font-semibold whitespace-nowrap text-text tabular-nums">
