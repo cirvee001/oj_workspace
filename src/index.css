@@ -1,0 +1,332 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   OJ Clothing — "Atelier" design tokens
+
+   A Lagos tailoring house, not a SaaS dashboard: black ink on white paper,
+   like a pattern sheet. Colour is kept for status only (paid, late, missing).
+   Editorial serif for titles and big figures; Inter for everything you read.
+
+   Components reference ROLE tokens (surface, text-secondary, accent…), never a
+   raw ramp step, so dark mode is a single re-declaration below. To re-brand,
+   change the accent ramp; nothing else.
+   ========================================================================== */
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  /* ---- Type ---------------------------------------------------------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* One weight (400). Never bold it; size and colour carry the hierarchy. */
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', monospace;
+
+  /* ---- Accent — ink. OJ is black and white; the accent IS the ink. -- */
+  --color-primary-25: #fafafa;
+  --color-primary-50: #f5f5f5;
+  --color-primary-100: #ebebeb;
+  --color-primary-200: #d6d6d6;
+  --color-primary-300: #b3b3b3;
+  --color-primary-400: #737373;
+  --color-primary-500: #111111;
+  --color-primary-600: #2b2b2b;
+  --color-primary-700: #000000;
+  --color-primary-800: #000000;
+  --color-primary-900: #000000;
+
+  /* ---- Neutral ramp: true greys, white to black ---------------------- */
+  --color-ui-25: #fcfcfc;
+  --color-ui-50: #f7f7f7;
+  --color-ui-100: #efefef;
+  --color-ui-200: #e5e5e5;
+  --color-ui-300: #d4d4d4;
+  --color-ui-400: #a3a3a3;
+  --color-ui-500: #737373;
+  --color-ui-600: #525252;
+  --color-ui-700: #3d3d3d;
+  --color-ui-800: #262626;
+  --color-ui-900: #111111;
+  --color-ui-950: #0a0a0a;
+
+  /* ---- Semantic ramps: forest, ochre, crimson, adire indigo ----------- */
+  --color-success-25: #f1f7f2;
+  --color-success-100: #cfe5d5;
+  --color-success-500: #3a8a5c;
+  --color-success-600: #2f6b4a;
+  --color-success-700: #24543a;
+
+  --color-warning-25: #fcf6e9;
+  --color-warning-100: #f4e2b8;
+  --color-warning-500: #c98a1e;
+  --color-warning-600: #9c6a14;
+  --color-warning-700: #7a520f;
+
+  --color-danger-25: #fcf1f2;
+  --color-danger-100: #f3c9ce;
+  --color-danger-500: #c8323f;
+  --color-danger-600: #a6242f;
+  --color-danger-700: #861c26;
+
+  --color-info-25: #f1f4fa;
+  --color-info-100: #d3ddf0;
+  --color-info-500: #3d63a8;
+  --color-info-600: #2f4f8f;
+  --color-info-700: #243d70;
+
+  /* ---- Shape: tailored, not bubbly ------------------------------------ */
+  --radius-card: 14px;
+  --radius-ctl: 10px;
+  --radius-tile: 10px;
+  --radius-tag: 6px;
+
+  /* ---- Elevation: only for things that float over the page ----------- */
+  --shadow-2xl: 0 24px 48px -16px rgb(0 0 0 / 0.22), 0 0 0 1px rgb(0 0 0 / 0.06);
+  --shadow-toast: 0 10px 28px -8px rgb(0 0 0 / 0.35);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --animate-in: fade-in 140ms ease-out;
+  --animate-scale-in: scale-in 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-up: slide-up 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---- Role tokens: light (paper) ------------------------------------------ */
+:root {
+  --color-canvas: #f6f6f6;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f7f7f7;
+  --color-surface-hover: #fafafa;
+  /* The ink sidebar. */
+  --color-panel-dark: #0a0a0a;
+  --color-panel-dark-raised: #1c1c1c;
+  --color-panel-dark-hover: #161616;
+  --color-panel-dark-text: #ffffff;
+  --color-panel-dark-muted: #9a9a9a;
+
+  --color-border: #e8e8e8;
+  --color-border-strong: #d6d6d6;
+  --color-border-interactive: #bdbdbd;
+
+  --color-text: #0a0a0a;
+  --color-text-secondary: #525252;
+  --color-text-muted: #7a7a7a;
+  --color-text-label: #2b2b2b;
+
+  --color-accent: var(--color-primary-500);
+  --color-accent-hover: var(--color-primary-600);
+  --color-accent-wash: #f5f5f5;
+  --color-accent-subtle: #ebebeb;
+  --color-on-accent: #ffffff;
+
+  /* Chart series: ink and pencil grey. */
+  --color-series-1: #0a0a0a;
+  --color-series-2: #a3a3a3;
+
+  --color-danger-text: var(--color-danger-600);
+  --color-success-text: var(--color-success-600);
+  --color-warning-text: var(--color-warning-700);
+
+  --color-success-fill: var(--color-success-25);
+  --color-success-ink: var(--color-success-700);
+  --color-success-line: var(--color-success-100);
+  --color-warning-fill: var(--color-warning-25);
+  --color-warning-ink: var(--color-warning-700);
+  --color-warning-line: var(--color-warning-100);
+  --color-danger-fill: var(--color-danger-25);
+  --color-danger-ink: var(--color-danger-700);
+  --color-danger-line: var(--color-danger-100);
+  --color-info-fill: var(--color-info-25);
+  --color-info-ink: var(--color-info-700);
+  --color-info-line: var(--color-info-100);
+
+  /* Cards are bordered paper, not floating: a 1px ring plus the faintest lift. */
+  --shadow-card: 0 0 0 1px var(--color-border), 0 1px 2px rgb(0 0 0 / 0.03);
+  color-scheme: light;
+}
+
+/* ---- Role tokens: dark (workshop at night) ------------------------------ */
+:root[data-theme='dark'] {
+  --color-canvas: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-sunken: #101010;
+  --color-surface-hover: #1b1b1b;
+  --color-panel-dark: #000000;
+  --color-panel-dark-raised: #1a1a1a;
+  --color-panel-dark-hover: #121212;
+
+  --color-border: #262626;
+  --color-border-strong: #333333;
+  --color-border-interactive: #474747;
+
+  --color-text: #fafafa;
+  --color-text-secondary: #bdbdbd;
+  --color-text-muted: #8f8f8f;
+  --color-text-label: #e0e0e0;
+
+  --color-accent: #fafafa;
+  --color-accent-hover: #d6d6d6;
+  --color-accent-wash: #1b1b1b;
+  --color-accent-subtle: #262626;
+  --color-on-accent: #0a0a0a;
+
+  --color-series-1: #fafafa;
+  --color-series-2: #737373;
+
+  --color-danger-text: #f0939b;
+  --color-success-text: #7fc79a;
+  --color-warning-text: #e6bb62;
+
+  --color-success-fill: #13251a;
+  --color-success-ink: #7fc79a;
+  --color-success-line: #1f3a29;
+  --color-warning-fill: #2a2110;
+  --color-warning-ink: #e6bb62;
+  --color-warning-line: #45360f;
+  --color-danger-fill: #2c1316;
+  --color-danger-ink: #f0939b;
+  --color-danger-line: #4a1e23;
+  --color-info-fill: #141c2c;
+  --color-info-ink: #9db5e0;
+  --color-info-line: #23314d;
+
+  --shadow-card: 0 0 0 1px var(--color-border);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--color-canvas);
+  --color-surface: var(--color-surface);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-panel-dark: var(--color-panel-dark);
+  --color-panel-dark-raised: var(--color-panel-dark-raised);
+  --color-panel-dark-hover: var(--color-panel-dark-hover);
+  --color-panel-dark-text: var(--color-panel-dark-text);
+  --color-panel-dark-muted: var(--color-panel-dark-muted);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-interactive: var(--color-border-interactive);
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-label: var(--color-text-label);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-wash: var(--color-accent-wash);
+  --color-accent-subtle: var(--color-accent-subtle);
+  --color-on-accent: var(--color-on-accent);
+  --color-series-1: var(--color-series-1);
+  --color-series-2: var(--color-series-2);
+  --color-danger-text: var(--color-danger-text);
+  --color-success-text: var(--color-success-text);
+  --color-warning-text: var(--color-warning-text);
+  --color-success-fill: var(--color-success-fill);
+  --color-success-ink: var(--color-success-ink);
+  --color-success-line: var(--color-success-line);
+  --color-warning-fill: var(--color-warning-fill);
+  --color-warning-ink: var(--color-warning-ink);
+  --color-warning-line: var(--color-warning-line);
+  --color-danger-fill: var(--color-danger-fill);
+  --color-danger-ink: var(--color-danger-ink);
+  --color-danger-line: var(--color-danger-line);
+  --color-info-fill: var(--color-info-fill);
+  --color-info-ink: var(--color-info-ink);
+  --color-info-line: var(--color-info-line);
+  --shadow-card: var(--shadow-card);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* The serif ships one weight: never let the browser fake a bold. */
+  .font-display {
+    font-synthesis: none;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .grid > * {
+    min-width: 0;
+  }
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='button'] {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--color-accent-subtle);
+    color: var(--color-text);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-interactive);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  /* Type scale. */
+  .text-display-40 { font-size: 40px; line-height: 44px; }
+  .text-heading-24 { font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -0.2px; }
+  .text-heading-20 { font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.1px; }
+  .text-heading-18 { font-size: 18px; line-height: 26px; font-weight: 600; }
+  .text-body-15 { font-size: 15px; line-height: 22px; }
+  .text-body-14 { font-size: 14px; line-height: 20px; }
+  .text-body-13 { font-size: 13px; line-height: 18px; }
+  .text-body-12 { font-size: 12px; line-height: 16px; }
+  .text-label-11 { font-size: 11px; line-height: 14px; font-weight: 600; }
+  /* Editorial eyebrow: small, tracked capitals above a title. */
+  .text-eyebrow { font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  /* The tailor's stitch: a dashed rule. */
+  .stitch { border-style: dashed; border-color: var(--color-border-strong); }
+}
+
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slide-up { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+@keyframes scale-in { from { opacity: 0; transform: scale(0.98) } to { opacity: 1; transform: none } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  @page { margin: 12mm; }
+}
