@@ -17,6 +17,7 @@ import type { Customer } from '@/types/domain';
 import { useApp } from '@/store/hooks';
 import { balanceOf, can } from '@/store/selectors';
 import { openSheet } from '@/store/ui/sheetStore';
+import { useOpenCustomer } from '@/hooks/useGo';
 
 type Filter = 'all' | 'owing' | 'birthday' | 'vip';
 
@@ -30,6 +31,7 @@ interface CustomerRow {
 
 export function CustomersPage() {
   const s = useApp();
+  const openCustomer = useOpenCustomer();
   const [q, setQ] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
 
@@ -140,7 +142,7 @@ export function CustomersPage() {
         data={list}
         columns={columns}
         rowKey={(r) => r.c.id}
-        onRowClick={(r) => openSheet({ type: 'customer', id: r.c.id })}
+        onRowClick={(r) => openCustomer(r.c.id)}
         itemNoun="customers"
         emptyIcon="users"
         emptyTitle="No customers match"

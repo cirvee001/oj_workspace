@@ -29,7 +29,7 @@ function search(s: AppState, term: string): Hit[] {
     .slice(0, 3)
     .forEach((i) => hits.push({ group: 'Go to', icon: i.icon, title: i.label, body: 'Screen', target: { screen: i.key } }));
   s.customers.filter((c) => has(c.name + c.phone)).slice(0, 4).forEach((c) =>
-    hits.push({ group: 'Clients', icon: 'users', title: c.name, body: c.phone, target: { sheet: { type: 'customer', id: c.id } } }),
+    hits.push({ group: 'Clients', icon: 'users', title: c.name, body: c.phone, target: { path: '/customers/' + c.id } }),
   );
   s.orders.filter((o) => has(o.id + customerOf(s, o.customer).name)).slice(0, 4).forEach((o) =>
     hits.push({ group: 'Orders', icon: 'receipt', title: `${o.id} · ${styleOf(s, o.style).name}`, body: `${customerOf(s, o.customer).name} · ${naira(o.total)}`, target: { sheet: { type: 'order', id: o.id } } }),

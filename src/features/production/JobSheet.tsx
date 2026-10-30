@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
-import { Button, Field, KeyValue, KeyValueList, Select, Sheet } from '@/components/ui';
+import { Button, Field, KeyValue, KeyValueList, SectionHeader, Select, Sheet } from '@/components/ui';
+import { MeasurementBook } from '@/features/customers/MeasurementBook';
 import { STAGES, stageName } from '@/config/constants';
 import { cn } from '@/lib/cn';
 import { naira, qty } from '@/lib/format';
@@ -82,6 +83,7 @@ export function JobSheet({ id }: { id: string }) {
 
   return (
     <Sheet
+      size="lg"
       title={'Job ' + id}
       tag={stageName(j.stage)}
       description={st.name + ' for ' + customerOf(s, o.customer).name + '. Move it on when your part is done.'}
@@ -103,6 +105,9 @@ export function JobSheet({ id }: { id: string }) {
           {bal > 0 ? naira(bal) : 'paid in full'}
         </KeyValue>
       </KeyValueList>
+
+      <SectionHeader title={'Measurements for the ' + st.name.toLowerCase()} className="mt-6" />
+      <MeasurementBook customer={customerOf(s, o.customer)} styleId={o.style} compact />
 
       <Field label="Who is doing it" className="mt-5">
         <Select value={j.assigned ?? ''} onChange={(e) => assignJob(id, e.target.value || null)}>

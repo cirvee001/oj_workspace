@@ -13,7 +13,7 @@ import {
   Toolbar,
   type Column,
 } from '@/components/ui';
-import { isoFromToday, niceDate } from '@/lib/dates';
+import { dueDate, isoFromToday } from '@/lib/dates';
 import { naira, nairaShort, plural } from '@/lib/format';
 import type { Order } from '@/types/domain';
 import { useApp } from '@/store/hooks';
@@ -120,7 +120,7 @@ export function OrdersPage() {
           ) : o.status === 'delivered' ? (
             <Badge>delivered</Badge>
           ) : (
-            <span className="tabular-nums">{niceDate(o.due)}</span>
+            <span className="tabular-nums">{dueDate(o.due)}</span>
           ),
         sortValue: (o) => o.due,
       },

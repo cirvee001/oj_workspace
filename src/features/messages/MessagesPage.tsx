@@ -3,9 +3,11 @@ import { Badge, Button, DetailCard, FocusPanel, PageHeader, type FocusItem } fro
 import { useApp } from '@/store/hooks';
 import { customerOf } from '@/store/selectors';
 import { openSheet } from '@/store/ui/sheetStore';
+import { useOpenCustomer } from '@/hooks/useGo';
 
 export function MessagesPage() {
   const s = useApp();
+  const openCustomer = useOpenCustomer();
   const [selected, setSelected] = useState<string | null>(null);
 
   const items: FocusItem[] = s.chats.map((c) => {
@@ -41,7 +43,7 @@ export function MessagesPage() {
           <Button leftIcon="chat" onClick={() => openSheet({ type: 'chat', id: chat.id })}>
             Open conversation
           </Button>
-          <Button variant="secondary" leftIcon="staff" onClick={() => openSheet({ type: 'customer', id: chat.customer })}>
+          <Button variant="secondary" leftIcon="staff" onClick={() => openCustomer(chat.customer)}>
             Open their record
           </Button>
         </>

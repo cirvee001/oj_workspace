@@ -1,6 +1,6 @@
 import { Avatar, Badge, PageHeader, StatCard, StatGrid } from '@/components/ui';
 import { STAGES } from '@/config/constants';
-import { niceDate } from '@/lib/dates';
+import { dueDate } from '@/lib/dates';
 import { useApp } from '@/store/hooks';
 import { branchJobs, customerOf, isLate, me, nameOf, orderOf, styleOf } from '@/store/selectors';
 import { openSheet } from '@/store/ui/sheetStore';
@@ -116,7 +116,7 @@ export function ProductionPage() {
                                 : 'shrink-0 text-body-12 text-text-muted tabular-nums'
                             }
                           >
-                            {niceDate(j.due)}
+                            {dueDate(j.due)}
                           </span>
                         </div>
                       </div>

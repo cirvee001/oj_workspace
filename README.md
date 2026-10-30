@@ -64,3 +64,8 @@ src/
 - **UI kit** in `src/components/ui` (DataTable, StatCard, Sheet, FocusPanel…). [docs/DESIGN.md](docs/DESIGN.md)
   says which one to use for what.
 - **Permissions** are defined in `config/permissions.ts`. Screen access is set in `config/navigation.ts`.
+- **Measurements** follow a Nigerian tailor's measurement book (`config/measurements.ts`): men's and
+  women's books grouped by garment (top, agbada, trousers/sokoto, cap; top, hip & wrapper, gown, head),
+  in inches, with the shorthand the workshop writes (N, Sh, C, T, RS…). Each point's label is its storage
+  key on `Customer.sizes`, so add new points rather than renaming existing ones. A job shows only the
+  groups its style needs (`groupsForStyle`).

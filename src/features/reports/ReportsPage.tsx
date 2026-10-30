@@ -15,12 +15,12 @@ import {
   SectionHeader,
   type Column,
 } from '@/components/ui';
-import { niceDate } from '@/lib/dates';
+import { ago } from '@/lib/dates';
 import { naira, qty } from '@/lib/format';
 import { exportFabric } from '@/store/actions/fabric';
 import { useApp } from '@/store/hooks';
 import { quietCustomers, tailors } from '@/store/selectors';
-import { openSheet } from '@/store/ui/sheetStore';
+import { useOpenCustomer } from '@/hooks/useGo';
 
 interface VarianceRow {
   id: string;
@@ -83,6 +83,7 @@ const TAILOR_COLUMNS: Column<TailorRow>[] = [
 
 export function ReportsPage() {
   const s = useApp();
+  const openCustomer = useOpenCustomer();
 
   const variance: VarianceRow[] = tailors(s)
     .map((t) => {
@@ -122,6 +123,11 @@ export function ReportsPage() {
   });
 
   const quiet = quietCustomers(s);
+  /* When they last ordered (they have gone quiet, so it is over six months ago), or that they never have. */
+  const lastOrderLine = (customerId: string, since: string): string => {
+    const last = s.orders.filter((o) => o.customer === customerId).reduce((m, o) => (o.created > m ? o.created : m), '');
+    return last ? 'Last ordered ' + ago(last).toLowerCase() : 'No order since joining ' + ago(since).toLowerCase();
+  };
 
   return (
     <>
@@ -195,9 +201,9 @@ export function ReportsPage() {
               key={c.id}
               leading={<Avatar name={c.name} />}
               title={c.name}
-              description={'Nothing since ' + niceDate(c.since) + ' · ' + c.phone}
+              description={lastOrderLine(c.id, c.since) + ' · ' + c.phone}
               trailing={<Badge tone="warning">worth a message</Badge>}
-              onClick={() => openSheet({ type: 'customer', id: c.id })}
+              onClick={() => openCustomer(c.id)}
             />
           ))}
         </List>

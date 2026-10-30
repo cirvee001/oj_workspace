@@ -19,7 +19,7 @@ import {
   type Column,
 } from '@/components/ui';
 import { BarList } from '@/components/charts/BarChart';
-import { TODAY, niceDate } from '@/lib/dates';
+import { dueDate, niceDate, TODAY } from '@/lib/dates';
 import { naira, nairaShort } from '@/lib/format';
 import { useApp } from '@/store/hooks';
 import { balanceOf, branchOrders, branchStaff, can, customerOf, myBranch, orderOf, styleOf } from '@/store/selectors';
@@ -94,7 +94,7 @@ export function MoneyPage() {
                     leading={<Avatar name={name} />}
                     title={name}
                     description={o.id + ' · ' + styleOf(s, o.style).name}
-                    trailing={<Figure value={naira(balanceOf(o))} caption={niceDate(o.due)} tone={o.due < TODAY ? 'danger' : undefined} />}
+                    trailing={<Figure value={naira(balanceOf(o))} caption={dueDate(o.due)} tone={o.due < TODAY ? 'danger' : undefined} />}
                   />
                 );
               })}

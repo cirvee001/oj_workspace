@@ -8,7 +8,7 @@ import type { IconName } from '@/components/ui/Icon';
 import type { ScreenKey } from '@/config/navigation';
 import type { SheetRef } from './ui/sheetStore';
 import { YARD_VALUE_KOBO, isEnquiryClosed, stageName } from '@/config/constants';
-import { TODAY, isBirthdayToday, niceDate } from '@/lib/dates';
+import { dueDate, isBirthdayToday, niceDate, TODAY } from '@/lib/dates';
 import { naira, nairaShort, plural, qty, round1 } from '@/lib/format';
 import {
   branchJobs,
@@ -30,7 +30,8 @@ import { decideIssue } from './actions/fabric';
 import { acceptCount, approveTransfer, declineTransfer } from './actions/stock';
 import { approvePayroll, decideExpense, decideLeave } from './actions/people';
 
-export type Target = { screen: ScreenKey } | { sheet: SheetRef } | null;
+/** Where tapping an item goes: a screen, a sheet, or a page by URL (e.g. a customer's profile). */
+export type Target = { screen: ScreenKey } | { sheet: SheetRef } | { path: string } | null;
 
 /* ---------------- approvals (PRD §37) ---------------- */
 
@@ -134,7 +135,7 @@ export function buildNotifications(s: AppState): Notice[] {
   const here = myBranch(s);
   branchJobs(s).filter(isLate).forEach((j) =>
     out.push({ level: 'Urgent', icon: 'clock',
-      title: 'Order ' + j.order + ' is ' + niceDate(j.due).toLowerCase(),
+      title: 'Order ' + j.order + ' is ' + dueDate(j.due).toLowerCase(),
       body: customerOf(s, orderOf(s, j.order)?.customer ?? '').name + ' · sitting at ' + stageName(j.stage),
       target: { sheet: { type: 'job', id: j.id } } }),
   );
@@ -153,7 +154,7 @@ export function buildNotifications(s: AppState): Notice[] {
   );
   branchOrders(s).filter((o) => balanceOf(o) > 0).slice(0, 5).forEach((o) =>
     out.push({ level: 'Important', icon: 'coins', title: customerOf(s, o.customer).name + ' owes ' + naira(balanceOf(o)),
-      body: 'Order ' + o.id + ' · due ' + niceDate(o.due), target: { sheet: { type: 'order', id: o.id } } }),
+      body: 'Order ' + o.id + ' · due ' + dueDate(o.due), target: { sheet: { type: 'order', id: o.id } } }),
   );
   s.leave.filter((l) => l.status === 'requested').forEach((l) =>
     out.push({ level: 'Important', icon: 'cal', title: nameOf(s, l.staff) + ' asked for ' + l.days + ' days off',
@@ -170,7 +171,7 @@ export function buildNotifications(s: AppState): Notice[] {
   );
   s.customers.filter((c) => isBirthdayToday(c.birthday)).forEach((c) =>
     out.push({ level: 'Normal', icon: 'star', title: c.name + '’s birthday is today',
-      body: 'The automatic message goes out at 9am.', target: { sheet: { type: 'customer', id: c.id } } }),
+      body: 'The automatic message goes out at 9am.', target: { path: '/customers/' + c.id } }),
   );
   s.alerts.forEach((a) => out.push({ level: a.hot ? 'Urgent' : 'Normal', icon: 'bell', title: a.title, body: a.body, target: null }));
   return out;
@@ -192,7 +193,7 @@ export function myWorkToday(s: AppState): WorkItem[] {
     const o = orderOf(s, j.order);
     out.push({ icon: 'scissors',
       title: stageName(j.stage) + ' — ' + styleOf(s, o?.style ?? '').name + ' for ' + customerOf(s, o?.customer ?? '').name,
-      body: j.id + ' · due ' + niceDate(j.due) + (isLate(j) ? ' · LATE' : ''), urgent: isLate(j),
+      body: j.id + ' · due ' + dueDate(j.due) + (isLate(j) ? ' · LATE' : ''), urgent: isLate(j),
       target: { sheet: { type: 'job', id: j.id } } });
   });
   s.issues.filter((i) => i.to === s.actor && i.status === 'issued' && !i.returned).forEach((i) =>

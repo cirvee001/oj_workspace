@@ -10,6 +10,7 @@ import type {
   BusinessData,
   Channel,
   Customer,
+  Figure,
   Enquiry,
   Expense,
   FabricIssue,
@@ -39,6 +40,50 @@ const SIZES: Size[] = ['S', 'M', 'L', 'XL', '2XL'];
 const SEED_STAGES: Stage[] = ['measurement', 'fabric', 'cutting', 'sewing', 'finishing', 'qc', 'ready', 'delivery'];
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
+
+/** Nearest half inch, the way a tape is read. */
+const half = (n: number) => Math.round(n * 2) / 2;
+
+/**
+ * A full measurement book from the five random base measurements, using
+ * ordinary tailoring proportions. Deterministic (no RNG), so the rest of the
+ * seed is unchanged. One customer in seven only has the base five taken, so
+ * the "not taken yet" warning has something to show.
+ */
+function measurementBook(i: number, branch: string, daysAgo: number, base: Record<string, number>): Pick<Customer, 'sizes' | 'figure' | 'fit' | 'measuredOn' | 'measuredBy'> {
+  const figure: Figure = 'Bust' in base ? 'women' : 'men';
+  const fit = (['Regular', 'Fitted', 'Free'] as const)[i % 3];
+  const measuredBy = branch === 'LEK' ? 'halima' : branch === 'ABJ' ? 'bode' : 'amaka';
+  const measuredOn = isoFromToday(-Math.min(daysAgo, 3 + ((i * 37) % 300)));
+  if (i % 7 === 3) return { sizes: base, figure, fit, measuredOn, measuredBy };
+  let sizes: Record<string, number>;
+  if (figure === 'men') {
+    const { Chest: c, Shoulder: sh, 'Long sleeve': sl, 'Agbada length': al } = base;
+    const tummy = half(c - 2 + (c > 44 ? 4 : 0));
+    const hip = half(c + 1);
+    const trouser = half(38 + (al - 50) * 0.4);
+    sizes = {
+      ...base,
+      Tummy: tummy, 'Top length': half(al * 0.55), 'Short sleeve': 10, 'Round sleeve': half(c * 0.36), Cuff: half(c * 0.2),
+      'Agbada width': half(sl * 2 + sh + 6),
+      Waist: half(tummy - 2), Hip: hip, Thigh: half(hip * 0.58), Knee: half(hip * 0.4),
+      'Trouser length': trouser, 'Inside leg': half(trouser - 10), Bottom: 15, Crotch: half(10.5 + (c - 36) * 0.1),
+      Head: half(21.5 + (c > 44 ? 1 : 0)),
+    };
+  } else {
+    const { Bust: b, Hip: h, 'Gown length': gl } = base;
+    const bp = half(b * 0.26);
+    const hl = half(bp + 6.5);
+    sizes = {
+      ...base,
+      'Under-bust': half(b - 4), 'Bust point': bp, 'Nipple to nipple': half(b * 0.19), 'Shoulder to under-bust': half(bp + 3),
+      'Half length': hl, 'Blouse length': half(hl + 8), 'Arm hole': half(b * 0.43), 'Round sleeve': half(b * 0.31), 'Sleeve length': 21,
+      'Waist to hip': 8, Thigh: half(h * 0.55), 'Knee length': 23, 'Wrapper length': half(gl - 15),
+      'Shoulder to knee': half(hl + 21), Head: 22,
+    };
+  }
+  return { sizes, figure, fit, measuredOn, measuredBy };
+}
 
 /** What sells off the rail, as [item, size, colour, price in kobo]. Matches the products below. */
 const RAIL_SALES: [string, string, string, number][] = [
@@ -129,10 +174,14 @@ export function createSeedData(): BusinessData {
       branch: b,
       since: isoFromToday(-daysAgo),
       tags: r() > 0.78 ? [pick(r, ['VIP', 'Bridal', 'Corporate', 'Quiet'])] : [],
-      sizes:
+      ...measurementBook(
+        i,
+        b,
+        daysAgo,
         r() > 0.5
-          ? { Chest: between(r, 36, 50), Shoulder: between(r, 16, 22), 'Sleeve length': between(r, 22, 27), Length: between(r, 50, 62), Neck: between(r, 15, 19) }
-          : { Bust: between(r, 32, 44), Waist: between(r, 26, 40), Hip: between(r, 34, 48), 'Dress length': between(r, 48, 60), Shoulder: between(r, 14, 18) },
+          ? { Chest: between(r, 36, 50), Shoulder: between(r, 16, 22), 'Long sleeve': between(r, 22, 27), 'Agbada length': between(r, 50, 62), Neck: between(r, 15, 19) }
+          : { Bust: between(r, 32, 44), Waist: between(r, 26, 40), Hip: between(r, 34, 48), 'Gown length': between(r, 48, 60), Shoulder: between(r, 14, 18) },
+      ),
       notes:
         r() > 0.7
           ? pick(r, ['Prefers heavy brocade.', 'Never ready on Fridays — travels.', 'Always wants extra length.',

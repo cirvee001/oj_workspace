@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Alert, Button, Field, KeyValue, KeyValueList, Select, Sheet } from '@/components/ui';
 import { ENQUIRY_STAGES, enquiryStageName } from '@/config/constants';
-import { niceDate } from '@/lib/dates';
+import { dueDate, niceDate } from '@/lib/dates';
 import { naira } from '@/lib/format';
 import type { EnquiryStage } from '@/types/domain';
 import { useApp } from '@/store/hooks';
@@ -42,7 +42,7 @@ export function EnquirySheet({ id }: { id: string }) {
         <KeyValue label="Interested in">{styleOf(s, e.style).name}</KeyValue>
         <KeyValue label="Looked after by">{nameOf(s, e.owner)}</KeyValue>
         <KeyValue label="Last spoke">{niceDate(e.lastContact)}</KeyValue>
-        <KeyValue label="Follow up">{niceDate(e.nextFollowUp)}</KeyValue>
+        <KeyValue label="Follow up">{dueDate(e.nextFollowUp)}</KeyValue>
         <KeyValue label="Worth about" total>
           {naira(e.value)}
         </KeyValue>

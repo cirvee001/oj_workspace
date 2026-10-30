@@ -1,4 +1,4 @@
-import type { BranchId, Channel } from '@/types/domain';
+import type { BranchId, Channel, Figure, Fit } from '@/types/domain';
 import { TODAY } from '@/lib/dates';
 import { getState, update } from '../appStore';
 import { can, myBranch } from '../selectors';
@@ -18,8 +18,11 @@ export interface CustomerInput {
   branch?: BranchId;
   tags: string[];
   notes: string;
-  /** Measurements in inches. */
+  /** Measurements in inches, keyed by the point labels in config/measurements.ts. */
   sizes: Record<string, number>;
+  figure?: Figure;
+  fit?: Fit;
+  fitNotes?: string;
 }
 
 /** Digits only, so "+234 803 …" and "0803…" compare equal on their last ten digits. */
@@ -47,6 +50,11 @@ function check(input: CustomerInput, selfId?: string): boolean {
     toast(dup.name + ' already has that number.', 'Open their record instead of adding them twice.');
     return false;
   }
+  const bad = badMeasurement(input.sizes);
+  if (bad) {
+    toast('Check the ' + bad.toLowerCase() + ' measurement.', 'Measurements are in inches, between 0 and 120.');
+    return false;
+  }
   return true;
 }
 
@@ -57,8 +65,23 @@ const clean = (input: CustomerInput) => ({
   birthday: input.birthday,
   tags: input.tags.filter((t) => (CUSTOMER_TAGS as readonly string[]).includes(t)),
   notes: input.notes.trim(),
-  sizes: Object.fromEntries(Object.entries(input.sizes).filter(([, v]) => Number.isFinite(v) && v > 0)),
+  sizes: Object.fromEntries(Object.entries(input.sizes).filter(([, v]) => Number.isFinite(v) && v > 0 && v < 120)),
+  figure: input.figure,
+  fit: input.fit,
+  fitNotes: (input.fitNotes ?? '').trim() || undefined,
 });
+
+/** A measurement that is not a plausible number of inches. */
+function badMeasurement(sizes: Record<string, number>): string | null {
+  const bad = Object.entries(sizes).find(([, v]) => !Number.isFinite(v) || v <= 0 || v >= 120);
+  return bad ? bad[0] : null;
+}
+
+/** Stamp who measured and when, only when the measurements themselves changed. */
+const measuredStamp = (actor: string | null, before?: Record<string, number>, after?: Record<string, number>) =>
+  JSON.stringify(before ?? {}) !== JSON.stringify(after ?? {}) && Object.keys(after ?? {}).length
+    ? { measuredOn: TODAY, measuredBy: actor ?? undefined }
+    : {};
 
 /** Add a customer. Returns the new id on success. */
 export function createCustomer(input: CustomerInput): string | null {
@@ -68,7 +91,7 @@ export function createCustomer(input: CustomerInput): string | null {
   update((d) => {
     const max = d.customers.reduce((n, x) => Math.max(n, Number(x.id.replace(/\D/g, '')) || 0), 0);
     id = 'c' + (max + 1);
-    d.customers.unshift({ id, ...c, branch: input.branch ?? myBranch(d), since: TODAY });
+    d.customers.unshift({ id, ...c, ...measuredStamp(d.actor, {}, c.sizes), branch: input.branch ?? myBranch(d), since: TODAY });
     addLog(d, 'Added customer ' + c.name, c.phone + ' · ' + c.channel);
   });
   closeSheet();
@@ -84,7 +107,7 @@ export function updateCustomer(id: string, input: CustomerInput): boolean {
   const c = clean(input);
   update((d) => {
     const rec = d.customers.find((x) => x.id === id)!;
-    Object.assign(rec, c);
+    Object.assign(rec, c, measuredStamp(d.actor, before.sizes, c.sizes));
     if (input.branch) rec.branch = input.branch;
     const changed = (Object.keys(c) as (keyof typeof c)[]).filter(
       (k) => JSON.stringify(before[k]) !== JSON.stringify(c[k]),

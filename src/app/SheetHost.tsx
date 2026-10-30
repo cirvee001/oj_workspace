@@ -3,7 +3,6 @@ import { useAppStore } from '@/store/appStore';
 import { ForgotPasswordSheet } from '@/features/auth/ForgotPasswordSheet';
 import { OrderSheet } from '@/features/orders/OrderSheet';
 import { NewOrderSheet } from '@/features/orders/NewOrderSheet';
-import { CustomerSheet } from '@/features/customers/CustomerSheet';
 import { EnquirySheet } from '@/features/enquiries/EnquirySheet';
 import { NewEnquirySheet } from '@/features/enquiries/NewEnquirySheet';
 import { ChatSheet } from '@/features/messages/ChatSheet';
@@ -31,7 +30,6 @@ function renderSheet(ref: SheetRef) {
   switch (ref.type) {
     case 'order': return <OrderSheet id={ref.id} />;
     case 'newOrder': return <NewOrderSheet customerId={ref.customerId} enquiryId={ref.enquiryId} />;
-    case 'customer': return <CustomerSheet id={ref.id} />;
     case 'enquiry': return <EnquirySheet id={ref.id} />;
     case 'newEnquiry': return <NewEnquirySheet />;
     case 'chat': return <ChatSheet id={ref.id} />;

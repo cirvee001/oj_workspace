@@ -12,7 +12,7 @@ import {
   StatGrid,
 } from '@/components/ui';
 import { ENQUIRY_STAGES, enquiryStageName, isEnquiryClosed } from '@/config/constants';
-import { TODAY, niceDate } from '@/lib/dates';
+import { dueDate, niceDate, TODAY } from '@/lib/dates';
 import { firstName, naira, nairaShort } from '@/lib/format';
 import type { Enquiry } from '@/types/domain';
 import { useApp } from '@/store/hooks';
@@ -136,7 +136,7 @@ export function EnquiriesPage() {
                               : 'text-body-12 text-text-muted'
                           }
                         >
-                          follow up {niceDate(e.nextFollowUp)}
+                          follow up {dueDate(e.nextFollowUp)}
                         </span>
                       </div>
                     </button>

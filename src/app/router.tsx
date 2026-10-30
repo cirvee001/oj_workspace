@@ -26,6 +26,9 @@ const ReportsPage = lazy(() => import('@/features/reports/ReportsPage').then((m)
 const ApprovalsPage = lazy(() => import('@/features/approvals/ApprovalsPage').then((m) => ({ default: m.ApprovalsPage })));
 const NotificationsPage = lazy(() => import('@/features/notifications/NotificationsPage').then((m) => ({ default: m.NotificationsPage })));
 const MessagesPage = lazy(() => import('@/features/messages/MessagesPage').then((m) => ({ default: m.MessagesPage })));
+const CustomerProfilePage = lazy(() =>
+  import('@/features/customers/CustomerProfilePage').then((m) => ({ default: m.CustomerProfilePage })),
+);
 const ActivityPage = lazy(() => import('@/features/activity/ActivityPage').then((m) => ({ default: m.ActivityPage })));
 
 /* Each screen is its own chunk, loaded the first time it is visited. */
@@ -73,6 +76,8 @@ export const router = createBrowserRouter([
                   ? { index: true, element: screen(key) }
                   : { path: PATHS[key].slice(1), element: screen(key) },
               ),
+              /* A customer's profile is a page of its own, readable by whoever can see the customers list. */
+              { path: PATHS.customers.slice(1) + '/:id', element: <ScreenGuard screen="customers" page={CustomerProfilePage} /> },
               { path: '*', element: <Navigate to="/" replace /> },
             ],
           },

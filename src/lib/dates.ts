@@ -22,19 +22,55 @@ export const TODAY = iso(today);
 /** First day of the current month, as an ISO date. */
 export const MONTH_START = TODAY.slice(0, 8) + '01';
 
-/** Human relative date: "Today", "Tomorrow", "3 days late", "in 4 days", "12 Mar". */
+const daysFromNow = (str: string): number =>
+  Math.round((new Date(str + 'T00:00:00').getTime() - new Date(TODAY + 'T00:00:00').getTime()) / DAY_MS);
+const shortDate = (str: string): string => new Date(str + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+/**
+ * A date relative to today, for anything that happened or will happen:
+ * "Today", "Yesterday", "3 days ago", "Tomorrow", "in 4 days", "12 Mar".
+ * For deadlines, where the past means overdue, use dueDate().
+ */
 export function niceDate(str: string | null | undefined): string {
   if (!str) return '—';
-  const t = new Date(str + 'T00:00:00');
-  const n = new Date(TODAY + 'T00:00:00');
-  const days = Math.round((t.getTime() - n.getTime()) / DAY_MS);
+  const days = daysFromNow(str);
   if (days === 0) return 'Today';
   if (days === 1) return 'Tomorrow';
   if (days === -1) return 'Yesterday';
-  if (days < 0) return Math.abs(days) + ' days late';
-  if (days < 7) return 'in ' + days + ' days';
-  return t.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  if (days < 0 && days > -7) return Math.abs(days) + ' days ago';
+  if (days > 0 && days < 7) return 'in ' + days + ' days';
+  return shortDate(str);
 }
+
+/** A deadline relative to today: "Today", "Tomorrow", "in 4 days", "3 days late", "12 Mar". */
+export function dueDate(str: string | null | undefined): string {
+  if (!str) return '—';
+  const days = daysFromNow(str);
+  if (days === -1) return '1 day late';
+  if (days < 0) return Math.abs(days) + ' days late';
+  return niceDate(str);
+}
+
+/**
+ * How long ago a past date was: "Today", "Yesterday", "3 days ago", "5 weeks ago",
+ * "4 months ago", "2 years ago". Use this for history (customer since, last order),
+ * never niceDate, which treats the past as overdue ("12 days late").
+ */
+export function ago(str: string | null | undefined): string {
+  if (!str) return '—';
+  const days = Math.round((new Date(TODAY + 'T00:00:00').getTime() - new Date(str + 'T00:00:00').getTime()) / DAY_MS);
+  if (days <= 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  if (days < 14) return days + ' days ago';
+  if (days < 60) return Math.round(days / 7) + ' weeks ago';
+  if (days < 365) return Math.round(days / 30) + ' months ago';
+  const years = Math.floor(days / 365);
+  return years === 1 ? 'A year ago' : years + ' years ago';
+}
+
+/** "21 March 2025". */
+export const longDate = (str: string | null | undefined): string =>
+  str ? new Date(str + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
 
 /** Current wall-clock time as `HH:MM`. */
 export const clockTime = (): string =>

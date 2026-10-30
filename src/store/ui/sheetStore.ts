@@ -9,7 +9,6 @@ export type SheetRef =
   | { type: 'order'; id: string }
   /** Prefill from a customer, or from an enquiry being turned into an order. */
   | { type: 'newOrder'; customerId?: string; enquiryId?: string }
-  | { type: 'customer'; id: string }
   /** Add a customer (no id) or edit one. `then: 'newOrder'` returns to a new order for them. */
   | { type: 'customerForm'; id?: string; then?: 'newOrder' }
   | { type: 'newPurchaseOrder'; materialId?: string }

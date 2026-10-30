@@ -3,12 +3,13 @@ import { Button, IconButton, Input, Sheet } from '@/components/ui';
 import { useApp } from '@/store/hooks';
 import { can, customerOf } from '@/store/selectors';
 import { sendChatReply } from '@/store/actions/sales';
-import { openSheet } from '@/store/ui/sheetStore';
+import { useOpenCustomer } from '@/hooks/useGo';
 
 const FORM_ID = 'chat-reply-form';
 
 export function ChatSheet({ id }: { id: string }) {
   const s = useApp();
+  const openCustomer = useOpenCustomer();
   const [text, setText] = useState('');
   const scroller = useRef<HTMLDivElement>(null);
   const c = s.chats.find((x) => x.id === id);
@@ -61,7 +62,7 @@ export function ChatSheet({ id }: { id: string }) {
             <p className="text-body-13 text-text-muted">You can read this but not reply.</p>
           )}
           <div className="flex justify-end">
-            <Button variant="secondary" size="sm" leftIcon="staff" onClick={() => openSheet({ type: 'customer', id: c.customer })}>
+            <Button variant="secondary" size="sm" leftIcon="staff" onClick={() => openCustomer(c.customer)}>
               Open their record
             </Button>
           </div>

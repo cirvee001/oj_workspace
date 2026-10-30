@@ -134,9 +134,21 @@ export interface Customer {
   branch: BranchId;
   since: IsoDate;
   tags: string[];
+  /** Body measurements in inches, keyed by the point's label in config/measurements.ts. */
   sizes: Record<string, number>;
   notes: string;
+  /** Which measurement book the sizes were taken against. */
+  figure?: Figure;
+  /** How they like their clothes to sit. */
+  fit?: Fit;
+  measuredOn?: IsoDate;
+  measuredBy?: StaffId;
+  /** Anything a tailor should know that a number can't say: "left shoulder lower", "likes room at the tummy". */
+  fitNotes?: string;
 }
+
+export type Figure = 'men' | 'women';
+export type Fit = 'Fitted' | 'Regular' | 'Free';
 
 export interface Order {
   id: string;

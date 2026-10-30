@@ -17,7 +17,9 @@ import {
   Sheet,
 } from '@/components/ui';
 import { PAYMENT_METHODS, stageName } from '@/config/constants';
-import { niceDate } from '@/lib/dates';
+import { canSeeScreen } from '@/config/navigation';
+import { useOpenCustomer } from '@/hooks/useGo';
+import { dueDate, niceDate } from '@/lib/dates';
 import { naira } from '@/lib/format';
 import type { PaymentMethod } from '@/types/domain';
 import { useApp } from '@/store/hooks';
@@ -27,6 +29,7 @@ import { openSheet } from '@/store/ui/sheetStore';
 
 export function OrderSheet({ id }: { id: string }) {
   const s = useApp();
+  const openCustomer = useOpenCustomer();
   const [amount, setAmount] = useState('');
   const [method, setMethod] = useState<PaymentMethod>('Cash');
   const o = orderOf(s, id);
@@ -88,14 +91,22 @@ export function OrderSheet({ id }: { id: string }) {
       )}
 
       <KeyValueList>
-        <KeyValue label="Customer">{c.name}</KeyValue>
+        <KeyValue label="Customer">
+          {canSeeScreen(s, 'customers') && c.id === o.customer ? (
+            <Button variant="link" onClick={() => openCustomer(c.id)}>
+              {c.name}
+            </Button>
+          ) : (
+            c.name
+          )}
+        </KeyValue>
         <KeyValue label="Phone">{seePhone ? c.phone : 'hidden'}</KeyValue>
         <KeyValue label="Making">
           {styleOf(s, o.style).name} · size {o.size}
         </KeyValue>
         <KeyValue label="Fabric">{materialOf(s, o.material).name}</KeyValue>
         <KeyValue label="Came from">{o.channel}</KeyValue>
-        <KeyValue label="Ready by">{niceDate(o.due)}</KeyValue>
+        <KeyValue label="Ready by">{dueDate(o.due)}</KeyValue>
         <KeyValue label="Now at">{cancelled ? 'cancelled' : job ? stageName(job.stage) : '—'}</KeyValue>
         <KeyValue label={cancelled ? 'Price (after cancelling)' : 'Price'}>{naira(o.total)}</KeyValue>
         <KeyValue label="Paid so far">{naira(o.paid)}</KeyValue>
